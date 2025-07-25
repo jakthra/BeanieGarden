@@ -4,16 +4,18 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "gardening_task")]
+#[sea_orm(table_name = "growth")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub uuid: Uuid,
-    pub title: String,
-    pub priority: String,
+    pub growth_type: String,
     #[sea_orm(column_type = "Float")]
-    pub time_required: f32,
-    pub description: String,
-    pub tips: String,
+    pub age_estimate: f32,
+    #[sea_orm(column_type = "Float")]
+    pub height: f32,
+    #[sea_orm(column_type = "Float")]
+    pub width: f32,
+    pub common_plant_id: i32,
     pub account_uuid: Uuid,
 }
 
@@ -27,6 +29,14 @@ pub enum Relation {
         on_delete = "NoAction"
     )]
     Account,
+    #[sea_orm(
+        belongs_to = "super::common_plant::Entity",
+        from = "Column::CommonPlantId",
+        to = "super::common_plant::Column::Id",
+        on_update = "NoAction",
+        on_delete = "NoAction"
+    )]
+    CommonPlant,
     #[sea_orm(has_many = "super::gardening_task_growth_assoication::Entity")]
     GardeningTaskGrowthAssoication,
 }
@@ -34,6 +44,12 @@ pub enum Relation {
 impl Related<super::account::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Account.def()
+    }
+}
+
+impl Related<super::common_plant::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::CommonPlant.def()
     }
 }
 
