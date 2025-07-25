@@ -1,0 +1,135 @@
+[
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Rhododendron",
+        "family": "Ericaceae"
+      },
+      "common_danish_name": "Rhodondendron",
+      "common_english_name": "Rhodondendron"
+    },
+    "result": {
+      "key": 2883026,
+      "scientificName": "Rhododendron L.",
+      "canonicalName": "Rhododendron",
+      "genus": "Rhododendron",
+      "family": "Ericaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Cupressus",
+        "family": "Cupressaceae"
+      },
+      "common_danish_name": "Almindelig cypres",
+      "common_english_name": "Cupressus sempervirens"
+    },
+    "result": {
+      "key": 10225588,
+      "scientificName": "Cupressus L.",
+      "canonicalName": "Cupressus",
+      "genus": "Cupressus",
+      "family": "Cupressaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Prunus",
+        "family": "Rosaceae"
+      },
+      "common_danish_name": "Kirsebær",
+      "common_english_name": "Cherry Blossom"
+    },
+    "result": {
+      "key": 3020559,
+      "scientificName": "Prunus L.",
+      "canonicalName": "Prunus",
+      "genus": "Prunus",
+      "family": "Rosaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Rosa L.",
+        "family": "Rosaceae"
+      },
+      "common_danish_name": "Rose",
+      "common_english_name": "Rose"
+    },
+    "result": {
+      "key": 8395064,
+      "scientificName": "Rosa L.",
+      "canonicalName": "Rosa",
+      "genus": "Rosa",
+      "family": "Rosaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Salix",
+        "family": "Salicaceae"
+      },
+      "common_danish_name": "Japansk Pil",
+      "common_english_name": "Salix"
+    },
+    "result": {
+      "key": 3039576,
+      "scientificName": "Salix L.",
+      "canonicalName": "Salix",
+      "genus": "Salix",
+      "family": "Salicaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Taxus",
+        "family": "Taxaceae"
+      },
+      "common_danish_name": "Taks",
+      "common_english_name": "Yew"
+    },
+    "result": {
+      "key": 2684902,
+      "scientificName": "Taxus L.",
+      "canonicalName": "Taxus",
+      "genus": "Taxus",
+      "family": "Taxaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Fagus",
+        "family": "Fagaceae"
+      },
+      "common_danish_name": "Bøg",
+      "common_english_name": "Beech"
+    },
+    "result": {
+      "key": 2874875,
+      "scientificName": "Fagus L.",
+      "canonicalName": "Fagus",
+      "genus": "Fagus",
+      "family": "Fagaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  }
+]

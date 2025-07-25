@@ -7,6 +7,7 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+# sea-orm = { version = "1.1.0", features = ["sqlx-postgres", "macros"] }
 actix-files = { version = "0.6", optional = true }
 actix-web = { version = "4", optional = true, features = ["macros"] }
 console_error_panic_hook = "0.1"
@@ -19,9 +20,23 @@ wasm-bindgen = "=0.2.100"
 env_logger = "0.11.8"
 lucide-leptos = { version = "2.15.0", features = ["all-icons"] }
 chrono = "0.4.41"
-uuid = { version = "1.17.0", features = ["v7", "js"] }
+uuid = { optional = true, workspace = true }
 strum = "0.27.1"
 strum_macros = "0.27.1"
+sea-orm = { workspace = true, optional = true }
+sqlx = { version = "0.8.6", optional = true, features = [
+    "postgres",
+    "macros",
+    "time",
+    "runtime-tokio",
+] }
+
+[workspace]
+members = [".", "entity", "migration", "seeder"]
+
+[workspace.dependencies]
+sea-orm = { version = "1.1.13", features = ["macros", "sqlx-postgres"] }
+uuid = { version = "1.17.0", features = ["v7", "js"] }
 
 [features]
 csr = ["leptos/csr"]
@@ -30,6 +45,8 @@ ssr = [
     "dep:actix-files",
     "dep:actix-web",
     "dep:leptos_actix",
+    "dep:sqlx",
+    "dep:sea-orm",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
