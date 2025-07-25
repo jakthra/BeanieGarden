@@ -24,19 +24,20 @@ uuid = { optional = true, workspace = true }
 strum = "0.27.1"
 strum_macros = "0.27.1"
 sea-orm = { workspace = true, optional = true }
-sqlx = { version = "0.8.6", optional = true, features = [
+sqlx = { workspace = true, optional = true }
+
+[workspace]
+members = [".", "entity", "infra", "migration", "seeder"]
+
+[workspace.dependencies]
+sea-orm = { version = "1.1.13", features = ["macros", "sqlx-postgres"] }
+uuid = { version = "1.17.0", features = ["v7", "js"] }
+sqlx = { version = "0.8.6", features = [
     "postgres",
     "macros",
     "time",
     "runtime-tokio",
 ] }
-
-[workspace]
-members = [".", "entity", "migration", "seeder"]
-
-[workspace.dependencies]
-sea-orm = { version = "1.1.13", features = ["macros", "sqlx-postgres"] }
-uuid = { version = "1.17.0", features = ["v7", "js"] }
 
 [features]
 csr = ["leptos/csr"]

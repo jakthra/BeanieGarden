@@ -1,8 +1,12 @@
+#![allow(non_snake_case)]
+use entity::common_plant;
+use entity::gbif_genus;
+use infra::get_dsn;
+use sea_orm::ActiveValue::Set;
+use sea_orm::EntityTrait;
+use sea_orm::{Database, DatabaseConnection};
 use std::fs::{self, File};
 use std::io::{BufReader, Write};
-
-use entity::plant_species::Model;
-use uuid::{NoContext, Timestamp, Uuid};
 
 #[derive(serde::Deserialize, serde::Serialize, Debug, Clone, PartialEq)]
 struct GenusSearch {
@@ -227,19 +231,43 @@ async fn main() -> Result<(), reqwest::Error> {
     file.write_all(json_string.as_bytes()).unwrap();
     println!("Results in: {}", file_name);
 
-    // Convert to database objects. Read from json file (uuidv7 is used)
-    // todo!();
-    // let entities: Vec<Model> = gbif_results
-    //     .iter()
-    //     .map(|gbif_result| Model {
-    //         uuid: Uuid::new_v7(Timestamp::now(NoContext)),
-    //         canonical_name: gbif_result.result.canonicalName.to_owned(),
-    //         family: gbif_result.result.family.to_owned(),
-    //         gbif_key: gbif_result.result.key,
-    //         genus: gbif_result.result.genus.to_owned(),
-    //         scientic_name: gbif_result.result.scientificName.to_owned(),
-    //     })
-    //     .collect();
+    let common_plants: Vec<common_plant::ActiveModel> = gbif_results
+        .iter()
+        .map(|r| common_plant::ActiveModel {
+            gbif_genus_key: Set(r.result.key),
+            common_danish_name: Set(r.common_plant_search.common_danish_name.to_owned()),
+            common_english_name: Set(r.common_plant_search.common_english_name.to_owned()),
+            ..Default::default()
+        })
+        .collect();
+
+    println!("Number of records to insert: {}", common_plants.len());
+
+    let gbif_genus_results: Vec<gbif_genus::ActiveModel> = gbif_results
+        .iter()
+        .map(|r| gbif_genus::ActiveModel {
+            canonical_name: Set(r.result.canonicalName.to_owned()),
+            family: Set(r.result.family.to_owned()),
+            genus: Set(r.result.genus.to_owned()),
+            key: Set(r.result.key.to_owned()),
+            rank: Set(r.result.rank.to_owned()),
+            scientific_name: Set(r.result.scientificName.to_owned()),
+            ..Default::default()
+        })
+        .collect();
+
+    let db: DatabaseConnection = Database::connect(get_dsn()).await.unwrap();
+
+    gbif_genus::Entity::insert_many(gbif_genus_results)
+        .exec(&db)
+        .await
+        .unwrap();
+
+    common_plant::Entity::insert_many(common_plants)
+        .exec(&db)
+        .await
+        .unwrap();
+    println!("Successfully inserted all records.");
 
     Ok(())
 }

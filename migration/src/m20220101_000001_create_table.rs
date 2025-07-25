@@ -28,8 +28,8 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(GbifGenus::Table)
                     .if_not_exists()
-                    .col(pk_auto(GbifGenus::Id))
-                    .col(string_uniq(GbifGenus::Key))
+                    .col(big_integer_uniq(GbifGenus::Key))
+                    .primary_key(Index::create().col(GbifGenus::Key))
                     .col(string(GbifGenus::CanonicalName))
                     .col(string(GbifGenus::ScientificName))
                     .col(string(GbifGenus::Family))
@@ -45,11 +45,14 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(CommonPlant::Table)
                     .if_not_exists()
-                    .col(pk_auto(CommonPlant::Id))
                     .col(string_uniq(CommonPlant::CommonDanishName))
                     .col(string_uniq(CommonPlant::CommonEnglishName))
-                    .col(integer(CommonPlant::GbifGenusId))
-                    .comment("Common derivatives of 'plants'. Uses genus descriptors from GBIF.")
+                    .col(big_integer_uniq(CommonPlant::GbifGenusKey))
+                    .primary_key(Index::create().col(CommonPlant::GbifGenusKey))
+                    .comment(
+                        "Common derivatives of 'plants'. Uses genus descriptors from GBIF."
+                            .to_string(),
+                    )
                     .to_owned(),
             )
             .await
@@ -102,17 +105,8 @@ impl MigrationTrait for Migration {
         manager
             .create_foreign_key(
                 ForeignKey::create()
-                    .from(CommonPlant::Table, CommonPlant::Id)
-                    .to(GbifGenus::Table, GbifGenus::Id)
-                    .to_owned(),
-            )
-            .await
-            .unwrap();
-        manager
-            .create_foreign_key(
-                ForeignKey::create()
-                    .from(CommonPlant::Table, CommonPlant::GbifGenusId)
-                    .to(GbifGenus::Table, GbifGenus::Id)
+                    .from(CommonPlant::Table, CommonPlant::GbifGenusKey)
+                    .to(GbifGenus::Table, GbifGenus::Key)
                     .to_owned(),
             )
             .await
@@ -158,7 +152,7 @@ impl MigrationTrait for Migration {
             .create_foreign_key(
                 ForeignKey::create()
                     .from(Growth::Table, Growth::CommonPlantId)
-                    .to(CommonPlant::Table, CommonPlant::Id)
+                    .to(CommonPlant::Table, CommonPlant::GbifGenusKey)
                     .to_owned(),
             )
             .await
@@ -229,7 +223,6 @@ enum GardeningTaskGrowthAssoication {
 #[derive(DeriveIden)]
 pub enum GbifGenus {
     Table,
-    Id,
     Key,
     ScientificName,
     CanonicalName,
@@ -241,10 +234,9 @@ pub enum GbifGenus {
 #[derive(DeriveIden)]
 pub enum CommonPlant {
     Table,
-    Id,
     CommonDanishName,
     CommonEnglishName,
-    GbifGenusId,
+    GbifGenusKey,
 }
 
 #[derive(DeriveIden)]

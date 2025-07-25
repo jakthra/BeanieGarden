@@ -32,7 +32,7 @@ pub enum Relation {
     #[sea_orm(
         belongs_to = "super::common_plant::Entity",
         from = "Column::CommonPlantId",
-        to = "super::common_plant::Column::Id",
+        to = "super::common_plant::Column::GbifGenusKey",
         on_update = "NoAction",
         on_delete = "NoAction"
     )]

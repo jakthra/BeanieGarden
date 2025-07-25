@@ -6,35 +6,32 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "common_plant")]
 pub struct Model {
-    #[sea_orm(primary_key)]
-    pub id: i32,
     #[sea_orm(unique)]
     pub common_danish_name: String,
     #[sea_orm(unique)]
     pub common_english_name: String,
-    pub gbif_genus_id: i32,
+    #[sea_orm(primary_key, auto_increment = false)]
+    pub gbif_genus_key: i64,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::gbif_genus::Entity",
-        from = "Column::GbifGenusId",
-        to = "super::gbif_genus::Column::Id",
+        from = "Column::GbifGenusKey",
+        to = "super::gbif_genus::Column::Key",
         on_update = "NoAction",
         on_delete = "NoAction"
     )]
-    GbifGenus2,
-    #[sea_orm(
-        belongs_to = "super::gbif_genus::Entity",
-        from = "Column::Id",
-        to = "super::gbif_genus::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    GbifGenus1,
+    GbifGenus,
     #[sea_orm(has_many = "super::growth::Entity")]
     Growth,
+}
+
+impl Related<super::gbif_genus::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::GbifGenus.def()
+    }
 }
 
 impl Related<super::growth::Entity> for Entity {
