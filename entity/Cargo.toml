@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 sea-orm = { workspace = true }
+uuid = { workspace = true }
+shared = { workspace = true }
