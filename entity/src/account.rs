@@ -9,6 +9,7 @@ pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub uuid: Uuid,
     pub email: String,
+    pub created_at: DateTime,
     pub active: bool,
 }
 

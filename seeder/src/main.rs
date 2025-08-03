@@ -1,12 +1,19 @@
 #![allow(non_snake_case)]
+use entity::account;
 use entity::common_plant;
 use entity::gbif_genus;
+use entity::gbif_genus::Column;
+use entity::growth;
 use infra::get_dsn;
+use sea_orm::sea_query::OnConflict;
 use sea_orm::ActiveValue::Set;
 use sea_orm::EntityTrait;
 use sea_orm::{Database, DatabaseConnection};
 use std::fs::{self, File};
 use std::io::{BufReader, Write};
+use uuid::NoContext;
+use uuid::Timestamp;
+use uuid::Uuid;
 
 #[derive(serde::Deserialize, serde::Serialize, Debug, Clone, PartialEq)]
 struct GenusSearch {
@@ -259,15 +266,42 @@ async fn main() -> Result<(), reqwest::Error> {
     let db: DatabaseConnection = Database::connect(get_dsn()).await.unwrap();
 
     gbif_genus::Entity::insert_many(gbif_genus_results)
+        .on_conflict(
+            OnConflict::column(Column::Key)
+                .update_columns([
+                    Column::CanonicalName,
+                    Column::Family,
+                    Column::Genus,
+                    Column::Rank,
+                    Column::ScientificName,
+                ])
+                .to_owned(),
+        )
         .exec(&db)
         .await
         .unwrap();
 
     common_plant::Entity::insert_many(common_plants)
+        .on_conflict(
+            OnConflict::column(common_plant::Column::GbifGenusKey)
+                .update_columns([
+                    common_plant::Column::CommonDanishName,
+                    common_plant::Column::CommonEnglishName,
+                ])
+                .to_owned(),
+        )
         .exec(&db)
         .await
         .unwrap();
     println!("Successfully inserted all records.");
+
+    // Create default account, and a few default growths
+    let account = account::ActiveModel {
+        email: Set("admin@beaniegeanie.io".to_string()),
+        uuid: Set(Uuid::new_v7(Timestamp::now(NoContext))),
+        ..Default::default()
+    };
+    account::Entity::insert(account).exec(&db).await.unwrap();
 
     Ok(())
 }

@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+use crate::ui::inventory::Inventory;
 use crate::ui::todo_list::TodoList;
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, Stylesheet, Title};
@@ -25,6 +26,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes fallback=move || "Not found.">
                     <Route path=StaticSegment("") view=TodoList />
+                    <Route path=StaticSegment("/inventory") view=Inventory />
                     <Route path=WildcardSegment("any") view=NotFound />
                 </Routes>
             </main>

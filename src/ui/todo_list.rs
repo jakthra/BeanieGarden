@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 use crate::api::gardening_tasks::get_gardening_tasks;
 use crate::entities::{GardeningTask, GardeningTaskPriority};
+use crate::ui::month_carousel::MonthCarousel;
 use crate::ui::navbar::NavBar;
 use chrono::TimeDelta;
 use leptos::prelude::*;
@@ -9,7 +10,7 @@ use std::collections::HashSet;
 
 #[component]
 pub fn TodoList() -> impl IntoView {
-    let tasks = OnceResource::new(async move { get_gardening_tasks().await });
+    let _ = OnceResource::new(async move { get_gardening_tasks().await });
 
     let (completed_tasks, set_completed_tasks) = signal(HashSet::new());
     let (expanded_tasks, set_expanded_tasks) = signal(HashSet::new());
@@ -28,7 +29,10 @@ pub fn TodoList() -> impl IntoView {
     )];
     view! {
         <div class="max-w-md mx-auto bg-gray-50 min-h-screen relative">
-            <NavBar />
+            <NavBar title="Tasks".to_string()>
+
+                <MonthCarousel />
+            </NavBar>
             <div class="flex items-start gap-3">
                 <div class="p-4 space-y-3">
                     <Suspense fallback=|| {

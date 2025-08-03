@@ -17,6 +17,8 @@ pub struct Model {
     pub width: f32,
     pub common_plant_id: i32,
     pub account_uuid: Uuid,
+    pub created_at: DateTime,
+    pub active: bool,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

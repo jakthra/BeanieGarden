@@ -20,24 +20,40 @@ wasm-bindgen = "=0.2.100"
 env_logger = "0.11.8"
 lucide-leptos = { version = "2.15.0", features = ["all-icons"] }
 chrono = "0.4.41"
-uuid = { optional = true, workspace = true }
+uuid = { workspace = true }
 strum = "0.27.1"
 strum_macros = "0.27.1"
 sea-orm = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
+infra = { path = "infra", optional = true }
+entity = { path = "entity", optional = true }
+shared = { workspace = true }
+query-service = { path = "query-service", optional = true }
+serde = { workspace = true }
 
 [workspace]
-members = [".", "entity", "infra", "migration", "seeder"]
+members = [
+    ".",
+    "entity",
+    "infra",
+    "migration",
+    "seeder",
+    "shared",
+    "query-service",
+]
 
 [workspace.dependencies]
 sea-orm = { version = "1.1.13", features = ["macros", "sqlx-postgres"] }
-uuid = { version = "1.17.0", features = ["v7", "js"] }
+uuid = { version = "1.17.0", features = ["v7", "js", "serde"] }
 sqlx = { version = "0.8.6", features = [
     "postgres",
     "macros",
     "time",
     "runtime-tokio",
 ] }
+serde = { version = "1.0.219", features = ["derive"] }
+shared = { path = "shared" }
+
 
 [features]
 csr = ["leptos/csr"]
@@ -48,6 +64,9 @@ ssr = [
     "dep:leptos_actix",
     "dep:sqlx",
     "dep:sea-orm",
+    "dep:entity",
+    "dep:infra",
+    "dep:query-service",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",

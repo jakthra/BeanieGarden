@@ -65,7 +65,18 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(pk_uuid(Account::Uuid))
                     .col(string(Account::Email))
-                    .col(boolean(Account::Active))
+                    .col(
+                        ColumnDef::new(Account::CreatedAt)
+                            .date_time()
+                            .not_null()
+                            .default(Expr::current_timestamp()),
+                    )
+                    .col(
+                        ColumnDef::new(Account::Active)
+                            .boolean()
+                            .not_null()
+                            .default(true),
+                    )
                     .comment("Default Account table")
                     .to_owned(),
             )
@@ -84,6 +95,18 @@ impl MigrationTrait for Migration {
                     .col(float(Growth::Width))
                     .col(integer(Growth::CommonPlantId))
                     .col(uuid(Growth::AccountUuid))
+                    .col(
+                        ColumnDef::new(Growth::CreatedAt)
+                            .date_time()
+                            .not_null()
+                            .default(Expr::current_timestamp()),
+                    )
+                    .col(
+                        ColumnDef::new(Growth::Active)
+                            .boolean()
+                            .not_null()
+                            .default(true),
+                    )
                     .to_owned(),
             )
             .await
@@ -249,6 +272,8 @@ pub enum Growth {
     Width,
     CommonPlantId,
     AccountUuid,
+    CreatedAt,
+    Active,
 }
 
 #[derive(DeriveIden)]
@@ -256,5 +281,6 @@ enum Account {
     Table,
     Uuid,
     Email,
+    CreatedAt,
     Active,
 }

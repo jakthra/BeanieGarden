@@ -1,9 +1,10 @@
-use crate::ui::month_carousel::MonthCarousel;
 use leptos::prelude::*;
+use leptos_router::hooks::use_location;
 use lucide_leptos::{House, Menu, Package, X};
 
 #[component]
-pub fn NavBar() -> impl IntoView {
+pub fn NavBar(title: String, children: Children) -> impl IntoView {
+    let location = use_location();
     let (open, set_open) = signal(false);
     view! {
         <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
@@ -14,9 +15,9 @@ pub fn NavBar() -> impl IntoView {
                 >
                     <Menu />
                 </button>
-                <h1 class="text-2xl font-bold flex-1">Tasks</h1>
+                <h1 class="text-2xl font-bold flex-1">{title}</h1>
             </div>
-            <MonthCarousel />
+            {children()}
         </div>
         <div class=move || {
             format!(
@@ -34,14 +35,34 @@ pub fn NavBar() -> impl IntoView {
                 </button>
             </div>
             <nav class="p-4 space-y-2">
-                <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors bg-green-100 text-green-800">
-                    <House />
-                    <span>Tasks</span>
-                </button>
-                <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors hover:bg-gray-100">
-                    <Package color="grey" />
-                    <p>Garden Inventory</p>
-                </button>
+                <a href="/">
+                    <button class=move || {
+                        if location.pathname.get() == "/".to_string() {
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors bg-green-100 text-green-800"
+                        } else {
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left"
+                        }
+                    }>
+
+                        <House />
+                        <span>Tasks</span>
+                    </button>
+
+                </a>
+                <a href="/inventory">
+                    <button class=move || {
+                        if location.pathname.get() == "/inventory".to_string() {
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors bg-green-100 text-green-800"
+                        } else {
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left"
+                        }
+                    }>
+
+                        <Package />
+                        <p>Garden Inventory</p>
+
+                    </button>
+                </a>
             </nav>
         </div>
     }
