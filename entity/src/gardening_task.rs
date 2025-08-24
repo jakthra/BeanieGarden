@@ -14,14 +14,14 @@ pub struct Model {
     pub time_required: f32,
     pub description: String,
     pub tips: String,
-    pub account_uuid: Uuid,
+    pub created_by: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::account::Entity",
-        from = "Column::AccountUuid",
+        from = "Column::CreatedBy",
         to = "super::account::Column::Uuid",
         on_update = "NoAction",
         on_delete = "NoAction"

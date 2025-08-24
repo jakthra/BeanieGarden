@@ -12,7 +12,8 @@ use leptos_router::{
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
-
+    let (account, _) = signal("0198942b-7e43-7678-8366-89d0e17a30e2".to_string());
+    provide_context(account);
     view! {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet

@@ -7,7 +7,6 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-# sea-orm = { version = "1.1.0", features = ["sqlx-postgres", "macros"] }
 actix-files = { version = "0.6", optional = true }
 actix-web = { version = "4", optional = true, features = ["macros"] }
 console_error_panic_hook = "0.1"
@@ -30,6 +29,8 @@ entity = { path = "entity", optional = true }
 shared = { workspace = true }
 query-service = { path = "query-service", optional = true }
 serde = { workspace = true }
+thaw = { version = "0.4.8", features = ["csr", "ssr", "hydrate"] }
+tailwind_fuse.workspace = true
 
 [workspace]
 members = [
@@ -53,11 +54,12 @@ sqlx = { version = "0.8.6", features = [
 ] }
 serde = { version = "1.0.219", features = ["derive"] }
 shared = { path = "shared" }
+tailwind_fuse = { version = "0.3.2" }
 
 
 [features]
 csr = ["leptos/csr"]
-hydrate = ["leptos/hydrate"]
+hydrate = ["leptos/hydrate", "thaw/hydrate"]
 ssr = [
     "dep:actix-files",
     "dep:actix-web",
@@ -67,6 +69,8 @@ ssr = [
     "dep:entity",
     "dep:infra",
     "dep:query-service",
+    "thaw/ssr",
+
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",

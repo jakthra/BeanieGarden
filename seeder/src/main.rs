@@ -3,137 +3,20 @@ use entity::account;
 use entity::common_plant;
 use entity::gbif_genus;
 use entity::gbif_genus::Column;
-use entity::growth;
 use infra::get_dsn;
-use sea_orm::sea_query::OnConflict;
 use sea_orm::ActiveValue::Set;
+use sea_orm::ColumnTrait;
 use sea_orm::EntityTrait;
+use sea_orm::QueryFilter;
+use sea_orm::sea_query::OnConflict;
 use sea_orm::{Database, DatabaseConnection};
-use std::fs::{self, File};
-use std::io::{BufReader, Write};
 use uuid::NoContext;
 use uuid::Timestamp;
 use uuid::Uuid;
 
-#[derive(serde::Deserialize, serde::Serialize, Debug, Clone, PartialEq)]
-struct GenusSearch {
-    q: String,
-    family: String,
-}
+use crate::gbif_service::*;
 
-impl Default for GenusSearch {
-    fn default() -> Self {
-        GenusSearch {
-            q: String::from(""),
-            family: String::from(""),
-        }
-    }
-}
-
-#[derive(serde::Deserialize, serde::Serialize, Debug, PartialEq, Clone)]
-struct CommonPlantSearch {
-    genus_search: GenusSearch,
-    common_danish_name: String,
-    common_english_name: String,
-}
-
-#[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
-struct GenusResult {
-    key: i64,
-    scientificName: String,
-    canonicalName: String,
-    genus: String,
-    #[serde(default)]
-    family: String,
-    rank: String,
-    status: String,
-}
-
-#[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
-struct GenusGbifResult {
-    common_plant_search: CommonPlantSearch,
-    result: GenusResult,
-}
-
-const DIRNAME: &'static str = "gbif-results";
-const BASE_GBIF_URL: &'static str = "https://api.gbif.org/v1/species/suggest?datasetKey=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&rank=GENUS&status=ACCEPTED";
-
-#[derive(Debug)]
-pub enum Error {
-    Reqwest(reqwest::Error),
-    NoResults,
-    InpreciseResults,
-}
-
-impl std::fmt::Display for Error {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Error::Reqwest(e) => write!(f, "HTTP request error: {}", e),
-            Error::NoResults => write!(f, "No results found for the given search"),
-            Error::InpreciseResults => write!(f, "Inprecise results found for the given search"),
-        }
-    }
-}
-
-impl std::error::Error for Error {}
-
-async fn query_gbif(search: &GenusSearch) -> Result<Vec<GenusResult>, Error> {
-    let client = reqwest::Client::new();
-    println!("Requesting data for {}", search.q);
-    let result = client
-        .get(BASE_GBIF_URL)
-        .query(&[("q", search.q.clone())])
-        .send()
-        .await
-        .map_err(Error::Reqwest)?
-        .json::<Vec<GenusResult>>()
-        .await
-        .map_err(Error::Reqwest)?;
-
-    if result.is_empty() {
-        Err(Error::NoResults)
-    } else {
-        Ok(result)
-    }
-}
-
-fn parse_gbif(search: &GenusSearch, results: &Vec<GenusResult>) -> Result<GenusResult, Error> {
-    if results.len() == 1 {
-        return Ok(results.first().unwrap().clone());
-    } else {
-        let curated_results: Vec<GenusResult> = results
-            .clone()
-            .into_iter()
-            .filter(|r| r.family == search.family)
-            .collect();
-
-        if curated_results.len() == 0 {
-            Err(Error::NoResults)
-        } else if curated_results.len() == 1 {
-            return Ok(curated_results.first().unwrap().clone());
-        } else {
-            println!(
-                "Unprecise search for {} {} - improve it by adding additional filters.",
-                search.q, search.family
-            );
-            let json_string = serde_json::to_string_pretty(&curated_results).unwrap();
-            let file_name = format!(
-                "{}/{}_{}.json",
-                DIRNAME,
-                search.q.to_owned(),
-                search.family.to_owned()
-            );
-            let mut file = File::create(file_name.to_string()).unwrap();
-            file.write_all(json_string.as_bytes()).unwrap();
-            println!(
-                "Successfully wrote raw {} results to {}",
-                curated_results.len(),
-                file_name
-            );
-            Err(Error::InpreciseResults)
-        }
-    }
-}
+pub mod gbif_service;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
@@ -202,41 +85,9 @@ async fn main() -> Result<(), reqwest::Error> {
             common_english_name: "Beech".to_string(),
         },
     ];
-    let file_name = format!("{}/gbif-results.json", DIRNAME);
-    let mut gbif_results: Vec<GenusGbifResult> = match File::open(file_name.to_owned()) {
-        Ok(file) => {
-            println!("Reading existing results from: {}", file_name);
-            let reader = BufReader::new(file);
-            serde_json::from_reader(reader).unwrap_or_else(|_| Vec::with_capacity(searches.len()))
-        }
-        Err(_) => Vec::with_capacity(searches.len()),
-    };
 
-    fs::create_dir_all(format!("./{}", DIRNAME)).unwrap();
-
-    for search in searches.into_iter() {
-        if gbif_results
-            .iter()
-            .any(|result| result.common_plant_search == search)
-        {
-            println!("Found {} in results. Skipping", search.common_english_name);
-            continue;
-        }
-        let results = query_gbif(&search.genus_search).await.unwrap();
-        let parsed_results = parse_gbif(&search.genus_search, &results);
-        match parsed_results {
-            Ok(results) => gbif_results.push(GenusGbifResult {
-                common_plant_search: search,
-                result: results,
-            }),
-            Err(err) => println!("Error parsing {:?}: {}", search, err),
-        }
-    }
-
-    let json_string = serde_json::to_string_pretty(&gbif_results).unwrap();
-    let mut file = File::create(file_name.to_string()).unwrap();
-    file.write_all(json_string.as_bytes()).unwrap();
-    println!("Results in: {}", file_name);
+    let gbif_service = GbifService::new();
+    let gbif_results = gbif_service.search(searches).await.unwrap();
 
     let common_plants: Vec<common_plant::ActiveModel> = gbif_results
         .iter()
@@ -248,7 +99,10 @@ async fn main() -> Result<(), reqwest::Error> {
         })
         .collect();
 
-    println!("Number of records to insert: {}", common_plants.len());
+    println!(
+        "Number of common_plant records to insert: {}",
+        common_plants.len()
+    );
 
     let gbif_genus_results: Vec<gbif_genus::ActiveModel> = gbif_results
         .iter()
@@ -296,12 +150,26 @@ async fn main() -> Result<(), reqwest::Error> {
     println!("Successfully inserted all records.");
 
     // Create default account, and a few default growths
-    let account = account::ActiveModel {
-        email: Set("admin@beaniegeanie.io".to_string()),
-        uuid: Set(Uuid::new_v7(Timestamp::now(NoContext))),
-        ..Default::default()
+    let account = account::Entity::find()
+        .filter(account::Column::Email.eq("admin@beaniegeanie.io"))
+        .one(&db)
+        .await
+        .unwrap();
+
+    let account_id = if let Some(account) = account {
+        account.uuid
+    } else {
+        let new_account = account::ActiveModel {
+            email: Set("admin@beaniegeanie.io".to_string()),
+            uuid: Set(Uuid::new_v7(Timestamp::now(NoContext))),
+            ..Default::default()
+        };
+        let result = account::Entity::insert(new_account)
+            .exec(&db)
+            .await
+            .unwrap();
+        result.last_insert_id
     };
-    account::Entity::insert(account).exec(&db).await.unwrap();
 
     Ok(())
 }

@@ -17,7 +17,7 @@ impl MigrationTrait for Migration {
                     .col(float(GardeningTask::TimeRequired))
                     .col(string(GardeningTask::Description))
                     .col(string(GardeningTask::Tips))
-                    .col(uuid(GardeningTask::AccountUuid))
+                    .col(uuid(GardeningTask::CreatedBy))
                     .to_owned(),
             )
             .await
@@ -64,7 +64,7 @@ impl MigrationTrait for Migration {
                     .table(Account::Table)
                     .if_not_exists()
                     .col(pk_uuid(Account::Uuid))
-                    .col(string(Account::Email))
+                    .col(string_uniq(Account::Email))
                     .col(
                         ColumnDef::new(Account::CreatedAt)
                             .date_time()
@@ -93,8 +93,8 @@ impl MigrationTrait for Migration {
                     .col(float(Growth::AgeEstimate))
                     .col(float(Growth::Height))
                     .col(float(Growth::Width))
-                    .col(integer(Growth::CommonPlantId))
-                    .col(uuid(Growth::AccountUuid))
+                    .col(big_integer(Growth::CommonPlantId))
+                    .col(uuid(Growth::CreatedBy))
                     .col(
                         ColumnDef::new(Growth::CreatedAt)
                             .date_time()
@@ -164,7 +164,7 @@ impl MigrationTrait for Migration {
         manager
             .create_foreign_key(
                 ForeignKey::create()
-                    .from(Growth::Table, Growth::AccountUuid)
+                    .from(Growth::Table, Growth::CreatedBy)
                     .to(Account::Table, Account::Uuid)
                     .to_owned(),
             )
@@ -184,7 +184,7 @@ impl MigrationTrait for Migration {
         manager
             .create_foreign_key(
                 ForeignKey::create()
-                    .from(GardeningTask::Table, GardeningTask::AccountUuid)
+                    .from(GardeningTask::Table, GardeningTask::CreatedBy)
                     .to(Account::Table, Account::Uuid)
                     .to_owned(),
             )
@@ -232,7 +232,7 @@ enum GardeningTask {
     TimeRequired,
     Description,
     Tips,
-    AccountUuid,
+    CreatedBy,
 }
 
 #[derive(DeriveIden)]
@@ -271,7 +271,7 @@ pub enum Growth {
     Height,
     Width,
     CommonPlantId,
-    AccountUuid,
+    CreatedBy,
     CreatedAt,
     Active,
 }

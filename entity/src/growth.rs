@@ -15,8 +15,8 @@ pub struct Model {
     pub height: f32,
     #[sea_orm(column_type = "Float")]
     pub width: f32,
-    pub common_plant_id: i32,
-    pub account_uuid: Uuid,
+    pub common_plant_id: i64,
+    pub created_by: Uuid,
     pub created_at: DateTime,
     pub active: bool,
 }
@@ -25,7 +25,7 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::account::Entity",
-        from = "Column::AccountUuid",
+        from = "Column::CreatedBy",
         to = "super::account::Column::Uuid",
         on_update = "NoAction",
         on_delete = "NoAction"

@@ -2,25 +2,6 @@
   {
     "common_plant_search": {
       "genus_search": {
-        "q": "Rhododendron",
-        "family": "Ericaceae"
-      },
-      "common_danish_name": "Rhodondendron",
-      "common_english_name": "Rhodondendron"
-    },
-    "result": {
-      "key": 2883026,
-      "scientificName": "Rhododendron L.",
-      "canonicalName": "Rhododendron",
-      "genus": "Rhododendron",
-      "family": "Ericaceae",
-      "rank": "GENUS",
-      "status": "ACCEPTED"
-    }
-  },
-  {
-    "common_plant_search": {
-      "genus_search": {
         "q": "Cupressus",
         "family": "Cupressaceae"
       },
@@ -128,6 +109,25 @@
       "canonicalName": "Fagus",
       "genus": "Fagus",
       "family": "Fagaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
+        "q": "Rhododendron",
+        "family": "Ericaceae"
+      },
+      "common_danish_name": "Rhodondendron",
+      "common_english_name": "Rhodondendron"
+    },
+    "result": {
+      "key": 2883026,
+      "scientificName": "Rhododendron L.",
+      "canonicalName": "Rhododendron",
+      "genus": "Rhododendron",
+      "family": "Ericaceae",
       "rank": "GENUS",
       "status": "ACCEPTED"
     }

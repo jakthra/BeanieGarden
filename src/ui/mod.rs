@@ -1,3 +1,4 @@
+pub mod components;
 pub mod growth;
 pub mod inventory;
 pub mod month_carousel;
