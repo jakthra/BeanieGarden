@@ -2,11 +2,36 @@
   {
     "common_plant_search": {
       "genus_search": {
+        "q": "Rhododendron",
+        "family": "Ericaceae"
+      },
+      "common_danish_name": "Rhodondendron",
+      "common_english_name": "Rhodondendron",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Rododendron",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Rhododendron-by-eiffel-public-domain-20040617.jpg",
+      "description": ""
+    },
+    "result": {
+      "key": 2883026,
+      "scientificName": "Rhododendron L.",
+      "canonicalName": "Rhododendron",
+      "genus": "Rhododendron",
+      "family": "Ericaceae",
+      "rank": "GENUS",
+      "status": "ACCEPTED"
+    }
+  },
+  {
+    "common_plant_search": {
+      "genus_search": {
         "q": "Cupressus",
         "family": "Cupressaceae"
       },
       "common_danish_name": "Almindelig cypres",
-      "common_english_name": "Cupressus sempervirens"
+      "common_english_name": "Cupressus sempervirens",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Almindelig_cypres",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Med_Cypress.jpg",
+      "description": ""
     },
     "result": {
       "key": 10225588,
@@ -25,7 +50,10 @@
         "family": "Rosaceae"
       },
       "common_danish_name": "Kirsebær",
-      "common_english_name": "Cherry Blossom"
+      "common_english_name": "Cherry Blossom",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Japansk_kirseb%C3%A6r",
+      "image_url": "https://da.wikipedia.org/wiki/Japansk_kirseb%C3%A6r#/media/Fil:Prunus-serrulata-cultivar-9.JPG",
+      "description": ""
     },
     "result": {
       "key": 3020559,
@@ -44,7 +72,10 @@
         "family": "Rosaceae"
       },
       "common_danish_name": "Rose",
-      "common_english_name": "Rose"
+      "common_english_name": "Rose",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Rose",
+      "image_url": "https://da.wikipedia.org/wiki/Rose#/media/Fil:Rosa_rubiginosa_1.jpg",
+      "description": ""
     },
     "result": {
       "key": 8395064,
@@ -63,7 +94,10 @@
         "family": "Salicaceae"
       },
       "common_danish_name": "Japansk Pil",
-      "common_english_name": "Salix"
+      "common_english_name": "Salix",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Pile-sl%C3%A6gten",
+      "image_url": "https://da.wikipedia.org/wiki/Pile-sl%C3%A6gten#/media/Fil:Salix-catkins.JPG",
+      "description": ""
     },
     "result": {
       "key": 3039576,
@@ -82,7 +116,10 @@
         "family": "Taxaceae"
       },
       "common_danish_name": "Taks",
-      "common_english_name": "Yew"
+      "common_english_name": "Yew",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Almindelig_taks",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Taxus_baccata_MHNT.jpg",
+      "description": ""
     },
     "result": {
       "key": 2684902,
@@ -101,7 +138,10 @@
         "family": "Fagaceae"
       },
       "common_danish_name": "Bøg",
-      "common_english_name": "Beech"
+      "common_english_name": "Beech",
+      "da_wiki_url": "https://da.wikipedia.org/wiki/Almindelig_b%C3%B8g",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fagus-sylvatica-DK.JPG",
+      "description": ""
     },
     "result": {
       "key": 2874875,
@@ -109,25 +149,6 @@
       "canonicalName": "Fagus",
       "genus": "Fagus",
       "family": "Fagaceae",
-      "rank": "GENUS",
-      "status": "ACCEPTED"
-    }
-  },
-  {
-    "common_plant_search": {
-      "genus_search": {
-        "q": "Rhododendron",
-        "family": "Ericaceae"
-      },
-      "common_danish_name": "Rhodondendron",
-      "common_english_name": "Rhodondendron"
-    },
-    "result": {
-      "key": 2883026,
-      "scientificName": "Rhododendron L.",
-      "canonicalName": "Rhododendron",
-      "genus": "Rhododendron",
-      "family": "Ericaceae",
       "rank": "GENUS",
       "status": "ACCEPTED"
     }

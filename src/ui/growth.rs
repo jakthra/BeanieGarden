@@ -2,7 +2,7 @@
 use leptos::prelude::*;
 
 use lucide_leptos::{Calendar, Droplets, Sprout};
-use shared::Growth;
+use entity::Growth;
 
 #[component]
 pub fn Growth(growth: Growth) -> impl IntoView {

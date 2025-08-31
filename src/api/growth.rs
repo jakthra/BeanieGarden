@@ -1,8 +1,9 @@
 use leptos::prelude::*;
-use shared::Growth;
+use entity::Growth;
 
 #[server]
 pub async fn get_growths() -> Result<Vec<Growth>, ServerFnError> {
-    use query_service::query_growths;
-    Ok(query_growths().await.unwrap())
+    use repositories::growth_repository::GrowthRepository;
+    let repo = GrowthRepository::new();
+    repo.get_all().await.map_err(|e| ServerFnError::ServerError(e.to_string()))
 }

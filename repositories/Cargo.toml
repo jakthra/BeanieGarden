@@ -1,10 +1,13 @@
 [package]
-name = "query-service"
+name = "repositories"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+models = { path = "../models" }
 entity = { path = "../entity" }
 infra = { path = "../infra" }
-shared = { path = "../shared" }
 sea-orm = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+async-trait = { workspace = true }

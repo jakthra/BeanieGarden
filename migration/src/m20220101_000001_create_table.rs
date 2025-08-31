@@ -47,6 +47,9 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(string_uniq(CommonPlant::CommonDanishName))
                     .col(string_uniq(CommonPlant::CommonEnglishName))
+                    .col(string(CommonPlant::DaWikiURL))
+                    .col(string(CommonPlant::ImageURL))
+                    .col(string(CommonPlant::Decription))
                     .col(big_integer_uniq(CommonPlant::GbifGenusKey))
                     .primary_key(Index::create().col(CommonPlant::GbifGenusKey))
                     .comment(
@@ -259,6 +262,9 @@ pub enum CommonPlant {
     Table,
     CommonDanishName,
     CommonEnglishName,
+    DaWikiURL,
+    ImageURL,
+    Decription,
     GbifGenusKey,
 }
 

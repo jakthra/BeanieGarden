@@ -18,29 +18,30 @@ leptos_router = { version = "0.8.2" }
 wasm-bindgen = "=0.2.100"
 env_logger = "0.11.8"
 lucide-leptos = { version = "2.15.0", features = ["all-icons"] }
-chrono = "0.4.41"
+chrono = { workspace = true }
 uuid = { workspace = true }
 strum = "0.27.1"
 strum_macros = "0.27.1"
 sea-orm = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
 infra = { path = "infra", optional = true }
-entity = { path = "entity", optional = true }
-shared = { workspace = true }
-query-service = { path = "query-service", optional = true }
+models = { path = "models", optional = true }
+repositories = { path = "repositories", optional = true }
+entity = { workspace = true }
 serde = { workspace = true }
 thaw = { version = "0.4.8", features = ["csr", "ssr", "hydrate"] }
 tailwind_fuse.workspace = true
+async-trait = { workspace = true, optional = true }
 
 [workspace]
 members = [
     ".",
-    "entity",
+    "models",
     "infra",
     "migration",
     "seeder",
-    "shared",
-    "query-service",
+    "entity",
+    "repositories",
 ]
 
 [workspace.dependencies]
@@ -53,8 +54,10 @@ sqlx = { version = "0.8.6", features = [
     "runtime-tokio",
 ] }
 serde = { version = "1.0.219", features = ["derive"] }
-shared = { path = "shared" }
+entity = { path = "entity" }
+async-trait = { version = "0.1.89" }
 tailwind_fuse = { version = "0.3.2" }
+chrono = { version = "0.4.41" }
 
 
 [features]
@@ -66,11 +69,10 @@ ssr = [
     "dep:leptos_actix",
     "dep:sqlx",
     "dep:sea-orm",
-    "dep:entity",
+    "dep:models",
     "dep:infra",
-    "dep:query-service",
+    "dep:repositories",
     "thaw/ssr",
-
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",

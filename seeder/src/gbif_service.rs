@@ -71,6 +71,9 @@ pub struct CommonPlantSearch {
     pub genus_search: GenusSearch,
     pub common_danish_name: String,
     pub common_english_name: String,
+    pub da_wiki_url: String,
+    pub image_url: String,
+    pub description: String,
 }
 
 #[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]

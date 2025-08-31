@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
-use entity::account;
-use entity::common_plant;
-use entity::gbif_genus;
-use entity::gbif_genus::Column;
+use models::account;
+use models::common_plant;
+use models::gbif_genus;
+use models::gbif_genus::Column;
 use infra::get_dsn;
 use sea_orm::ActiveValue::Set;
 use sea_orm::ColumnTrait;
@@ -29,6 +29,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Rhodondendron".to_string(),
             common_english_name: "Rhodondendron".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Rododendron".to_string(),
+            image_url: "https://upload.wikimedia.org/wikipedia/commons/7/75/Rhododendron-by-eiffel-public-domain-20040617.jpg".to_string(),
+            description: "".to_string(),
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -38,6 +41,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Almindelig cypres".to_string(),
             common_english_name: "Cupressus sempervirens".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Almindelig_cypres".to_string(),
+            image_url: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Med_Cypress.jpg".to_string(),
+            description: "".to_string()
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -47,6 +53,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Kirsebær".to_string(),
             common_english_name: "Cherry Blossom".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Japansk_kirseb%C3%A6r".to_string(),
+            image_url: "https://da.wikipedia.org/wiki/Japansk_kirseb%C3%A6r#/media/Fil:Prunus-serrulata-cultivar-9.JPG".to_string(),
+            description: "".to_string()
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -56,6 +65,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Rose".to_string(),
             common_english_name: "Rose".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Rose".to_string(),
+            image_url: "https://da.wikipedia.org/wiki/Rose#/media/Fil:Rosa_rubiginosa_1.jpg".to_string(),
+            description: "".to_string()
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -65,6 +77,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Japansk Pil".to_string(),
             common_english_name: "Salix".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Pile-sl%C3%A6gten".to_string(),
+            image_url: "https://da.wikipedia.org/wiki/Pile-sl%C3%A6gten#/media/Fil:Salix-catkins.JPG".to_string(),
+            description: "".to_string()
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -74,6 +89,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Taks".to_string(),
             common_english_name: "Yew".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Almindelig_taks".to_string(),
+            image_url: "https://upload.wikimedia.org/wikipedia/commons/3/31/Taxus_baccata_MHNT.jpg".to_string(),
+            description: "".to_string()
         },
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -83,6 +101,9 @@ async fn main() -> Result<(), reqwest::Error> {
             },
             common_danish_name: "Bøg".to_string(),
             common_english_name: "Beech".to_string(),
+            da_wiki_url: "https://da.wikipedia.org/wiki/Almindelig_b%C3%B8g".to_string(),
+            image_url: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fagus-sylvatica-DK.JPG".to_string(),
+            description: "".to_string()
         },
     ];
 
@@ -95,6 +116,9 @@ async fn main() -> Result<(), reqwest::Error> {
             gbif_genus_key: Set(r.result.key),
             common_danish_name: Set(r.common_plant_search.common_danish_name.to_owned()),
             common_english_name: Set(r.common_plant_search.common_english_name.to_owned()),
+            image_url: Set(r.common_plant_search.image_url.to_owned()),
+            da_wiki_url: Set(r.common_plant_search.da_wiki_url.to_owned()),
+            decription: Set(r.common_plant_search.description.to_owned()),
             ..Default::default()
         })
         .collect();
