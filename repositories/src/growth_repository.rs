@@ -1,13 +1,15 @@
 use crate::repository::DatabaseRepository;
-use models::growth::{self, ActiveModel};
+use entity::common_plant::CommonPlant;
+use entity::gbif_genus::GbifGenus;
+use entity::growth::Growth;
 use models::common_plant;
 use models::gbif_genus;
+use models::growth::{self, ActiveModel};
 use sea_orm::ActiveValue::Set;
+use sea_orm::ColumnTrait;
 use sea_orm::EntityTrait;
 use sea_orm::ModelTrait;
 use sea_orm::QueryFilter;
-use sea_orm::ColumnTrait;
-use entity::{Growth, CommonPlant, GbifGenus};
 use uuid::Uuid;
 
 pub struct GrowthRepository {
@@ -23,8 +25,7 @@ impl GrowthRepository {
 
     pub async fn get(&self, uuid: Uuid) -> Result<Growth, Box<dyn std::error::Error>> {
         let db = self.repository.connect().await?;
-        let found: Option<growth::Model> =
-            growth::Entity::find_by_id(uuid).one(&db).await?;
+        let found: Option<growth::Model> = growth::Entity::find_by_id(uuid).one(&db).await?;
 
         let found = found.ok_or("Growth not found")?;
 
@@ -34,8 +35,10 @@ impl GrowthRepository {
         let common_plant: common_plant::Model =
             common_plant.ok_or("Related CommonPlant not found. Should never happen.")?;
 
-        let gbif_genus: Option<gbif_genus::Model> =
-            common_plant.find_related(gbif_genus::Entity).one(&db).await?;
+        let gbif_genus: Option<gbif_genus::Model> = common_plant
+            .find_related(gbif_genus::Entity)
+            .one(&db)
+            .await?;
 
         let gbif_genus: gbif_genus::Model =
             gbif_genus.ok_or("Related GBIF Genus not found. Should never happen.")?;
@@ -64,9 +67,13 @@ impl GrowthRepository {
         })
     }
 
-    pub async fn add(&self, growth: Growth, created_by: Uuid) -> Result<growth::Model, Box<dyn std::error::Error>> {
+    pub async fn add(
+        &self,
+        growth: Growth,
+        created_by: Uuid,
+    ) -> Result<growth::Model, Box<dyn std::error::Error>> {
         let db = self.repository.connect().await?;
-        
+
         let active_model = ActiveModel {
             uuid: Set(growth.uuid),
             growth_type: Set(growth.growth_type),
@@ -80,12 +87,17 @@ impl GrowthRepository {
         };
 
         let result = growth::Entity::insert(active_model).exec(&db).await?;
-        let inserted = growth::Entity::find_by_id(result.last_insert_id).one(&db).await?;
-        
+        let inserted = growth::Entity::find_by_id(result.last_insert_id)
+            .one(&db)
+            .await?;
+
         inserted.ok_or("Failed to retrieve inserted growth".into())
     }
 
-    pub async fn get_by_common_plant(&self, common_plant_id: i64) -> Result<Vec<Growth>, Box<dyn std::error::Error>> {
+    pub async fn get_by_common_plant(
+        &self,
+        common_plant_id: i64,
+    ) -> Result<Vec<Growth>, Box<dyn std::error::Error>> {
         let db = self.repository.connect().await?;
         let growths: Vec<growth::Model> = growth::Entity::find()
             .filter(growth::Column::CommonPlantId.eq(common_plant_id))
@@ -95,14 +107,18 @@ impl GrowthRepository {
 
         let mut result = Vec::new();
         for growth_model in growths {
-            let common_plant: Option<common_plant::Model> =
-                growth_model.find_related(common_plant::Entity).one(&db).await?;
+            let common_plant: Option<common_plant::Model> = growth_model
+                .find_related(common_plant::Entity)
+                .one(&db)
+                .await?;
 
             let common_plant: common_plant::Model =
                 common_plant.ok_or("Related CommonPlant not found. Should never happen.")?;
 
-            let gbif_genus: Option<gbif_genus::Model> =
-                common_plant.find_related(gbif_genus::Entity).one(&db).await?;
+            let gbif_genus: Option<gbif_genus::Model> = common_plant
+                .find_related(gbif_genus::Entity)
+                .one(&db)
+                .await?;
 
             let gbif_genus: gbif_genus::Model =
                 gbif_genus.ok_or("Related GBIF Genus not found. Should never happen.")?;
@@ -143,14 +159,18 @@ impl GrowthRepository {
 
         let mut result = Vec::new();
         for growth_model in growths {
-            let common_plant: Option<common_plant::Model> =
-                growth_model.find_related(common_plant::Entity).one(&db).await?;
+            let common_plant: Option<common_plant::Model> = growth_model
+                .find_related(common_plant::Entity)
+                .one(&db)
+                .await?;
 
             let common_plant: common_plant::Model =
                 common_plant.ok_or("Related CommonPlant not found. Should never happen.")?;
 
-            let gbif_genus: Option<gbif_genus::Model> =
-                common_plant.find_related(gbif_genus::Entity).one(&db).await?;
+            let gbif_genus: Option<gbif_genus::Model> = common_plant
+                .find_related(gbif_genus::Entity)
+                .one(&db)
+                .await?;
 
             let gbif_genus: gbif_genus::Model =
                 gbif_genus.ok_or("Related GBIF Genus not found. Should never happen.")?;

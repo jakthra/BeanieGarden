@@ -1,4 +1,6 @@
 use crate::repository::DatabaseRepository;
+use entity::common_plant::CommonPlant;
+use entity::gbif_genus::GbifGenus;
 use models::common_plant::{self, ActiveModel};
 use models::gbif_genus;
 use sea_orm::sea_query::OnConflict;
@@ -6,7 +8,6 @@ use sea_orm::ActiveValue::Set;
 use sea_orm::EntityTrait;
 use sea_orm::InsertResult;
 use sea_orm::ModelTrait;
-use entity::{CommonPlant, GbifGenus};
 
 pub struct CommonPlantRepository {
     repository: DatabaseRepository,

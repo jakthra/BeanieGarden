@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
 use leptos::prelude::*;
 
+use entity::growth::Growth;
 use lucide_leptos::{Calendar, Droplets, Sprout};
-use entity::Growth;
 
 #[component]
 pub fn Growth(growth: Growth) -> impl IntoView {
