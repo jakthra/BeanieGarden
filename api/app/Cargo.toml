@@ -1,0 +1,13 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+migration = { path = "../migration" }
+infra = { path = "../infra" }
+sea-orm = {workspace = true}
+poem = "3.1.12"
+poem-openapi = { version = "5.1.16", features = ["swagger-ui"] }
+tokio = "1.47.1"
+tracing-subscriber = "0.3.20"
