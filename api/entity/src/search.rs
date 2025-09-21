@@ -1,7 +1,6 @@
-use ts_rs::TS;
+use poem_openapi::Object;
 
-#[derive(Clone, TS)]
-#[ts(export)]
+#[derive(Clone, Debug, Object)]
 pub struct PlantRecord {
     pub common_name: String,
     pub family: String,
@@ -11,8 +10,7 @@ pub struct PlantRecord {
     pub in_garden: bool,
 }
 
-#[derive(Clone, TS)]
-#[ts(export)]
+#[derive(Clone, Debug, Object)]
 pub struct SearchResults {
     pub plants: Vec<PlantRecord>,
 }
