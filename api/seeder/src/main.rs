@@ -3,7 +3,6 @@ use models::account;
 use models::common_plant;
 use models::gbif_genus;
 use models::gbif_genus::Column;
-use infra::get_dsn;
 use sea_orm::ActiveValue::Set;
 use sea_orm::ColumnTrait;
 use sea_orm::EntityTrait;

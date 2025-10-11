@@ -15,7 +15,7 @@ impl SearchResultRepository {
     }
 
     pub async fn search(&self, q: String) -> Result<SearchResults, DbErr> {
-        let db = self.repository.connect().await?;
+        // let db = self.repository.connect().await?;
 
         Ok(SearchResults {
             plants: [PlantRecord {

@@ -1,7 +1,7 @@
 use std::vec;
 
 use entity::search::SearchResults;
-use infra::get_dsn;
+use infra::postgres::get_dsn;
 use migration::{Migrator, MigratorTrait};
 use poem::middleware::{Cors, CorsEndpoint, Tracing, TracingEndpoint};
 use poem::{EndpointExt, Route, listener::TcpListener};

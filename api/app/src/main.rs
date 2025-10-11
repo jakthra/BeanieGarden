@@ -1,5 +1,5 @@
 use app::{Api, App};
-use infra::get_dsn;
+use infra::postgres::get_dsn;
 use migration::{Migrator, MigratorTrait};
 use poem::listener::TcpListener;
 

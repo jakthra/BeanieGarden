@@ -1,4 +1,4 @@
-use infra::get_dsn;
+use infra::postgres::get_dsn;
 use sea_orm::{Database, DatabaseConnection, DbErr};
 
 pub struct DatabaseRepository {

@@ -6,4 +6,7 @@ edition = "2024"
 [dependencies]
 infra = { path = "../infra"}
 entity  = { path = "../entity"}
+models  = { path = "../models"}
+uuid = {workspace = true}
+chrono = {workspace = true}
 sea-orm = { workspace = true }

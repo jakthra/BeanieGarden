@@ -11,7 +11,12 @@
 	async function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
 			try {
-				const response = await fetch(`/api/search?q=${encodeURIComponent(searchValue)}`);
+				const response = await fetch(`/api/search`, {
+					method: 'post',
+					body: JSON.stringify({ q: searchValue }),
+
+					headers: { 'Content-Type': 'application/json' }
+				});
 				const data = await response.json();
 				searchResults = data;
 			} catch (error) {
