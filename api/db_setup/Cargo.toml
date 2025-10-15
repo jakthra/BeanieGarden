@@ -5,4 +5,8 @@ edition = "2024"
 
 [dependencies]
 seeder = { path = "../seeder"}
+infra = { path = "../infra"}
 tokio ={ workspace = true}
+sea-orm = { workspace = true }
+sqlx = { workspace = true }
+minijinja = "2.12.0"

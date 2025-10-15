@@ -18,6 +18,8 @@ use crate::gbif_service::*;
 
 pub mod gbif_service;
 
+
+
 pub async fn seed() -> Result<(), reqwest::Error>  {
     let searches = vec![
         CommonPlantSearch {
