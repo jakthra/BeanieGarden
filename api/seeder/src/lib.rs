@@ -1,8 +1,9 @@
-#![allow(non_snake_case)]
+
 use models::account;
 use models::common_plant;
 use models::gbif_genus;
 use models::gbif_genus::Column;
+use infra::postgres::get_dsn;
 use sea_orm::ActiveValue::Set;
 use sea_orm::ColumnTrait;
 use sea_orm::EntityTrait;
@@ -17,8 +18,7 @@ use crate::gbif_service::*;
 
 pub mod gbif_service;
 
-#[tokio::main]
-async fn main() -> Result<(), reqwest::Error> {
+pub async fn seed() -> Result<(), reqwest::Error>  {
     let searches = vec![
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -179,7 +179,7 @@ async fn main() -> Result<(), reqwest::Error> {
         .await
         .unwrap();
 
-    let account_id = if let Some(account) = account {
+    let _ = if let Some(account) = account {
         account.uuid
     } else {
         let new_account = account::ActiveModel {

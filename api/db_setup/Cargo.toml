@@ -1,0 +1,8 @@
+[package]
+name = "db_setup"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+seeder = { path = "../seeder"}
+tokio ={ workspace = true}
