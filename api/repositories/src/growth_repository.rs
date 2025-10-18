@@ -53,7 +53,7 @@ impl GrowthRepository {
                 common_danish_name: common_plant.common_danish_name,
                 common_english_name: common_plant.common_english_name,
                 da_wiki_url: common_plant.da_wiki_url,
-                description: common_plant.decription,
+                description: common_plant.description,
                 image_url: common_plant.image_url,
                 gbif_genus: GbifGenus {
                     canonical_name: gbif_genus.canonical_name,
@@ -133,7 +133,7 @@ impl GrowthRepository {
                     common_danish_name: common_plant.common_danish_name,
                     common_english_name: common_plant.common_english_name,
                     da_wiki_url: common_plant.da_wiki_url,
-                    description: common_plant.decription,
+                    description: common_plant.description,
                     image_url: common_plant.image_url,
                     gbif_genus: GbifGenus {
                         canonical_name: gbif_genus.canonical_name,
@@ -185,7 +185,7 @@ impl GrowthRepository {
                     common_danish_name: common_plant.common_danish_name,
                     common_english_name: common_plant.common_english_name,
                     da_wiki_url: common_plant.da_wiki_url,
-                    description: common_plant.decription,
+                    description: common_plant.description,
                     image_url: common_plant.image_url,
                     gbif_genus: GbifGenus {
                         canonical_name: gbif_genus.canonical_name,

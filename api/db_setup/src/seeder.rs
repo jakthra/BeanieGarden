@@ -16,10 +16,6 @@ use uuid::Uuid;
 
 use crate::gbif_service::*;
 
-pub mod gbif_service;
-
-
-
 pub async fn seed() -> Result<(), reqwest::Error>  {
     let searches = vec![
         CommonPlantSearch {
@@ -119,7 +115,7 @@ pub async fn seed() -> Result<(), reqwest::Error>  {
             common_english_name: Set(r.common_plant_search.common_english_name.to_owned()),
             image_url: Set(r.common_plant_search.image_url.to_owned()),
             da_wiki_url: Set(r.common_plant_search.da_wiki_url.to_owned()),
-            decription: Set(r.common_plant_search.description.to_owned()),
+            description: Set(r.common_plant_search.description.to_owned()),
             ..Default::default()
         })
         .collect();

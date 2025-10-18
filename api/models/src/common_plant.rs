@@ -12,7 +12,7 @@ pub struct Model {
     pub common_english_name: String,
     pub da_wiki_url: String,
     pub image_url: String,
-    pub decription: String,
+    pub description: String,
     #[sea_orm(primary_key, auto_increment = false)]
     pub gbif_genus_key: i64,
 }

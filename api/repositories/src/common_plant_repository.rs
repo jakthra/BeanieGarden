@@ -36,7 +36,7 @@ impl CommonPlantRepository {
             common_danish_name: found.common_danish_name.to_owned(),
             common_english_name: found.common_english_name.to_owned(),
             da_wiki_url: found.da_wiki_url.to_owned(),
-            description: found.decription.to_owned(),
+            description: found.description.to_owned(),
             image_url: found.image_url.to_owned(),
 
             gbif_genus: GbifGenus {
@@ -61,7 +61,7 @@ impl CommonPlantRepository {
                 common_english_name: Set(entity.common_english_name),
                 gbif_genus_key: Set(entity.gbif_genus.key),
                 da_wiki_url: Set(entity.da_wiki_url),
-                decription: Set(entity.description),
+                description: Set(entity.description),
                 image_url: Set(entity.image_url),
                 ..Default::default()
             }))
@@ -71,7 +71,7 @@ impl CommonPlantRepository {
                         common_plant::Column::CommonDanishName,
                         common_plant::Column::CommonEnglishName,
                         common_plant::Column::DaWikiUrl,
-                        common_plant::Column::Decription,
+                        common_plant::Column::Description,
                         common_plant::Column::ImageUrl,
                     ])
                     .to_owned(),
