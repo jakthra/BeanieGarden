@@ -1,7 +1,7 @@
 
 
 use std::{fs, path::Path};
-
+use log::{info};
 use infra::postgres::{get_db_options, get_dsn};
 use sea_orm::{Database, DatabaseConnection, ExecResult};
 use sea_orm::ConnectionTrait;
@@ -79,19 +79,19 @@ pub async fn create_database_if_not_exists() -> Result<(), sea_orm::DbErr> {
 
 #[tokio::main]
 async fn main() {
-
-    println!("Checking if database exists ---");
+    env_logger::init();
+    info!("Checking if database exists ---");
     let _ = create_database_if_not_exists().await;
 
-    println!("Running migrations ---");
+    info!("Running migrations ---");
     let db: DatabaseConnection = Database::connect(get_dsn()).await.unwrap();
     let _ = Migrator::up(&db, None).await;
 
-    println!("Running seeder operations --- ");
+    info!("Running seeder operations --- ");
     let _ = seeder::seed().await;
 
     let _ = pg_trgm_extension().await;
     
-    println!("Running index operations --- ");
+    info!("Running index operations --- ");
     let _ = search_index().await;
 }
