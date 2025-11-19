@@ -34,7 +34,7 @@ impl SearchResultRepository {
         let mut context: HashMap<String, String> = HashMap::new();
         context.insert("search_term".to_string(), q);
         let sql_repository = SQLTemplateRepository::new();
-        sql_repository.render(SQLTemplates::SearchIndex, context)
+        sql_repository.render(SQLTemplates::SearchQuery, context)
     } 
 
     pub async fn search(&self, q: String) -> Result<SearchResults, DbErr> {

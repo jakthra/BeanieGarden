@@ -11,8 +11,9 @@ pub struct SQLTemplateRepository {
 #[derive(AsRefStr)]
 pub enum SQLTemplates {
     #[strum(serialize = "search_query.sql")]
-    SearchIndex,
+    SearchQuery,
 }
+
 
 
 impl SQLTemplateRepository {
