@@ -1,38 +1,67 @@
-# sv
+# BeanieGarden
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is a [SvelteKit](https://kit.svelte.dev) project.
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Node 25.x
+- PostgreSQL 18.x
+- Bun 
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Installation
 
-# create a new project in my-app
-npx sv create my-app
+```bash
+bun install
 ```
 
-## Developing
+## Development
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+bun run dev
 ```
 
-## Building
+## Production
 
-To create a production version of your app:
-
-```sh
-npm run build
+```bash
+bun run build
 ```
 
-You can preview the production build with `npm run preview`.
+## Database
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+### Migrate
+
+```bash
+bun run db:migrate
+```
+
+### Studio
+
+```bash
+bun run db:studio
+```
+
+### Add Admin
+
+```bash
+bun run db:add-admin
+```
+
+## Storybook
+
+```bash
+bun run storybook
+```
+
+## Testing
+
+### Unit
+
+```bash
+bun run test:unit
+```
+
+### E2E
+
+```bash
+bun run test:e2e
+```
