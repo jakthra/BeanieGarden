@@ -1,17 +1,11 @@
 use entity::common_plant;
 use entity::gbif_genus;
 use entity::gbif_genus::Column;
-use entity::user;
 use infra::postgres::get_dsn;
 use sea_orm::ActiveValue::Set;
-use sea_orm::ColumnTrait;
 use sea_orm::EntityTrait;
-use sea_orm::QueryFilter;
 use sea_orm::sea_query::OnConflict;
 use sea_orm::{Database, DatabaseConnection};
-use uuid::NoContext;
-use uuid::Timestamp;
-use uuid::Uuid;
 
 use crate::gbif_service::*;
 

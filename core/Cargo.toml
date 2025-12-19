@@ -1,5 +1,5 @@
 [package]
-name = "api"
+name = "core"
 version = "0.1.0"
 edition = "2024"
 
@@ -10,8 +10,6 @@ sqlx = { workspace = true, optional = true}
 sea-orm = {workspace = true, optional = true}
 serde = { workspace = true, optional = true}
 chrono = { workspace = true, optional = true}
-poem = { workspace = true, optional = true}
-poem-openapi = { workspace = true, optional = true}
 tokio = {workspace = true, optional = true}
 env_logger = {workspace = true, optional = false}
 log ={ workspace = true, optional = false}
@@ -27,12 +25,10 @@ sqlx = { version = "0.8.6", features = [
 uuid = { version = "1.18.1", features = ["serde", "v7"] }
 serde = { version = "1.0.219", features = ["derive"] }
 chrono = {version = "*"}
-poem = { version = "3.1.12", features = ["test"]}
-poem-openapi = { version = "5.1.16", features = ["swagger-ui"] }
 tokio = { version = "1.48.0", features = ["full"] }
 env_logger = "0.11.8"
 log = "0.4.28"
 
 [workspace]
 resolver = "3"
-members = [ "app", "infra", "migration", "entity", "repositories", "db_setup"]
+members = [ "infra", "migration", "entity", "db_setup"]
