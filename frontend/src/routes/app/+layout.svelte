@@ -42,7 +42,7 @@
 
 <nav>
 	<div class="relative grid h-screen w-screen grid-rows-[1fr_auto] border border-surface-200-800">
-		<div class="">
+		<div class="overflow-y-auto">
 			{#if searchOpen}
 				<div
 					class="absolute inset-0 z-5 h-full max-w-none bg-black/30 backdrop-blur-sm backdrop:bg-transparent"
@@ -91,12 +91,12 @@
 <style>
 	button.active {
 		font-weight: bold;
-		color: var(--color-primary-500);
+		color: var(--color-success-500);
 		/* or whatever styling you want */
 	}
 	a.active {
 		font-weight: bold;
-		color: var(--color-primary-500);
+		color: var(--color-success-500);
 		/* or whatever styling you want */
 	}
 </style>

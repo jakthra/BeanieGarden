@@ -11,14 +11,14 @@ export const user = pgTable('user', {
   pw_hash: varchar("pw_hash").notNull(),
   role: userRole(),
 }, (table) => [
-  index("user_uid_idx").on(table.uuid),
+  index("user_uuid_idx").on(table.uuid),
   index("user_email_idx").on(table.email)
 ]);
 
 
 export const session = pgTable('session', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
-  user_uid: uuid('user_uid')
+  user_uuid: uuid('user_uuid')
     .notNull()
     .references(() => user.uuid, { onDelete: 'cascade' }),
   expires_at: timestamp('expires_at', { withTimezone: true, mode: 'date' })
@@ -32,7 +32,7 @@ export const session = pgTable('session', {
     .notNull()
     .defaultNow(),
 }, (table) => [
-  index("session_user_uid_idx").on(table.user_uid),
+  index("session_user_uuid_idx").on(table.user_uuid),
 ]);
 
 export const common_plant = pgTable('common_plant', {
@@ -87,10 +87,10 @@ export const gardening_task = pgTable('gardening_task', {
 ]);
 
 export const gardening_task_growth_assoication = pgTable('gardening_task_growth_assoication', {
-   uuid: uuid('uuid').primaryKey().defaultRandom(),
-   gardening_task_uid: uuid('gardening_task_uid').notNull().references(() => gardening_task.uuid, { onDelete: 'cascade' }),
-   growth_uuid: uuid('growth_uuid').notNull().references(() => growth.uuid, { onDelete: 'cascade' }),
- }, (table) => [
-   index("gardening_task_growth_assoication_uid_idx").on(table.uuid),
- ]);
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  gardening_task_uid: uuid('gardening_task_uid').notNull().references(() => gardening_task.uuid, { onDelete: 'cascade' }),
+  growth_uuid: uuid('growth_uuid').notNull().references(() => growth.uuid, { onDelete: 'cascade' }),
+}, (table) => [
+  index("gardening_task_growth_assoication_uid_idx").on(table.uuid),
+]);
 
