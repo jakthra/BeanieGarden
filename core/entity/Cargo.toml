@@ -8,5 +8,3 @@ serde = { workspace = true }
 uuid = { workspace = true }
 sea-orm = { workspace = true }
 
-poem = {workspace = true}
-poem-openapi = { workspace = true}
