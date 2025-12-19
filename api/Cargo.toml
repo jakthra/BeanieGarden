@@ -35,4 +35,4 @@ log = "0.4.28"
 
 [workspace]
 resolver = "3"
-members = [ "app", "infra", "migration", "models", "entity", "repositories", "db_setup"]
+members = [ "app", "infra", "migration", "entity", "repositories", "db_setup"]

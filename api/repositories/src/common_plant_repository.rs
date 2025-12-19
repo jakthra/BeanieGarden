@@ -1,8 +1,6 @@
 use crate::repository::DatabaseRepository;
 use entity::common_plant::CommonPlant;
 use entity::gbif_genus::GbifGenus;
-use models::common_plant::{self, ActiveModel};
-use models::gbif_genus;
 use sea_orm::ActiveValue::Set;
 use sea_orm::EntityTrait;
 use sea_orm::InsertResult;

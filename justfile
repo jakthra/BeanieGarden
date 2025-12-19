@@ -2,7 +2,7 @@ default:
     just --list
 
 [working-directory('api')]
-data-seed:
+db-seed:
     echo "Seeding database with data..."
     cargo run -p db_setup
 
@@ -21,3 +21,13 @@ docker-postgres:
 db-migrate:
     echo "Running database migrations..."
     bun run db:migrate
+
+[working-directory('frontend')]
+db-generate:
+    echo "Generating database schema..."
+    bun run db:generate
+
+[working-directory('api')]
+db-api-entities:
+    echo "Generating database entities..."
+    sea-orm-cli generate entity --with-serde both -o entity/src

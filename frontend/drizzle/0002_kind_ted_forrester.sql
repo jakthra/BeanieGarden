@@ -1,0 +1,1 @@
+ALTER TABLE "common_plant" ADD CONSTRAINT "common_plant_gbif_genus_key_unique" UNIQUE("gbif_genus_key");

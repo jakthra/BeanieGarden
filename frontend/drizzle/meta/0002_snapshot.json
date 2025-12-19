@@ -1,6 +1,6 @@
 {
-  "id": "40660e0f-841e-4485-b708-e4d144139d8e",
-  "prevId": "9a8fef82-4a66-4dbd-9f00-0c0f44c1ecec",
+  "id": "2ecfc797-04f5-4a81-9043-20d814009e45",
+  "prevId": "40660e0f-841e-4485-b708-e4d144139d8e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -69,6 +69,13 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "common_plant_gbif_genus_key_unique": {
+          "name": "common_plant_gbif_genus_key_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "gbif_genus_key"
+          ]
+        },
         "common_plant_common_danish_name_common_english_name_unique": {
           "name": "common_plant_common_danish_name_common_english_name_unique",
           "nullsNotDistinct": false,

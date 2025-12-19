@@ -22,7 +22,7 @@ impl Default for GenusSearch {
 
 #[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
 pub struct GenusResult {
-    pub key: i64,
+    pub key: i32,
     pub scientificName: String,
     pub canonicalName: String,
     pub genus: String,

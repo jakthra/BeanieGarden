@@ -1,8 +1,7 @@
-
-use models::account;
-use models::common_plant;
-use models::gbif_genus;
-use models::gbif_genus::Column;
+use entity::common_plant;
+use entity::gbif_genus;
+use entity::gbif_genus::Column;
+use entity::user;
 use infra::postgres::get_dsn;
 use sea_orm::ActiveValue::Set;
 use sea_orm::ColumnTrait;
@@ -16,7 +15,7 @@ use uuid::Uuid;
 
 use crate::gbif_service::*;
 
-pub async fn seed() -> Result<(), reqwest::Error>  {
+pub async fn seed() -> Result<(), reqwest::Error> {
     let searches = vec![
         CommonPlantSearch {
             genus_search: GenusSearch {
@@ -169,28 +168,6 @@ pub async fn seed() -> Result<(), reqwest::Error>  {
         .await
         .unwrap();
     println!("Successfully inserted all records.");
-
-    // Create default account, and a few default growths
-    let account = account::Entity::find()
-        .filter(account::Column::Email.eq("admin@beaniegeanie.io"))
-        .one(&db)
-        .await
-        .unwrap();
-
-    let _ = if let Some(account) = account {
-        account.uuid
-    } else {
-        let new_account = account::ActiveModel {
-            email: Set("admin@beaniegeanie.io".to_string()),
-            uuid: Set(Uuid::new_v7(Timestamp::now(NoContext))),
-            ..Default::default()
-        };
-        let result = account::Entity::insert(new_account)
-            .exec(&db)
-            .await
-            .unwrap();
-        result.last_insert_id
-    };
 
     Ok(())
 }

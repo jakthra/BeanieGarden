@@ -6,7 +6,6 @@ use infra::postgres::{get_db_options, get_dsn};
 use sea_orm::{Database, DatabaseConnection, ExecResult};
 use sea_orm::ConnectionTrait;
 use sqlx::ConnectOptions; 
-use migration::{Migrator, MigratorTrait};
 
 pub mod seeder;
 pub mod gbif_service;
@@ -80,13 +79,6 @@ pub async fn create_database_if_not_exists() -> Result<(), sea_orm::DbErr> {
 #[tokio::main]
 async fn main() {
     env_logger::init();
-    info!("Checking if database exists ---");
-    let _ = create_database_if_not_exists().await;
-
-    info!("Running migrations ---");
-    let db: DatabaseConnection = Database::connect(get_dsn()).await.unwrap();
-    let _ = Migrator::up(&db, None).await;
-
     info!("Running seeder operations --- ");
     let _ = seeder::seed().await;
 

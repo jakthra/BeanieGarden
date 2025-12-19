@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-models = { path = "../models"}
 serde = { workspace = true }
 uuid = { workspace = true }
+sea-orm = { workspace = true }
+
 poem = {workspace = true}
 poem-openapi = { workspace = true}

@@ -2,33 +2,22 @@
 
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "growth")]
+#[sea_orm(table_name = "gardening_task")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub uuid: Uuid,
-    pub growth_type: String,
-    pub age_estimate: Decimal,
-    pub height: Decimal,
-    pub width: Decimal,
-    pub common_plant_id: i32,
+    pub title: String,
+    pub priority: String,
+    pub time_required: Decimal,
+    pub description: String,
+    pub tips: String,
     pub created_by: Uuid,
-    pub created_at: DateTimeWithTimeZone,
-    pub active: Option<bool>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::common_plant::Entity",
-        from = "Column::CommonPlantId",
-        to = "super::common_plant::Column::Id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    CommonPlant,
     #[sea_orm(has_many = "super::gardening_task_growth_assoication::Entity")]
     GardeningTaskGrowthAssoication,
     #[sea_orm(
@@ -39,12 +28,6 @@ pub enum Relation {
         on_delete = "Cascade"
     )]
     User,
-}
-
-impl Related<super::common_plant::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::CommonPlant.def()
-    }
 }
 
 impl Related<super::gardening_task_growth_assoication::Entity> for Entity {
